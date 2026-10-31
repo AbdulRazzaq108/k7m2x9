@@ -2,7 +2,13 @@
 
 A React and Python dashboard for UK day-ahead electricity purchasing teams. It shows the latest eligible Elexon wind forecasts and evaluates them against actual wind generation, for purchasing decisions made from **1–31 January 2026**. Corresponding deliveries span **2 January–1 February 2026**.
 
-**Deployment status:** implemented locally; a public Vercel/Heroku URL has not been created yet. Hosting account access is required to publish. Replace this status with the verified public URL before submitting the assignment.
+**Source repository:** [AbdulRazzaq108/k7m2x9](https://github.com/AbdulRazzaq108/k7m2x9). The code has been pushed to GitHub using the required random repository name.
+
+**Application status:** implemented and tested locally. The Docker image has also been built and run successfully, with `/api/health` returning HTTP 200 on the container exposed at `http://localhost:8001`.
+
+**Deployment status:** public deployment to Vercel or Heroku is still pending. Add the verified public application URL here before submitting the assignment.
+
+**Demo video:** the MP4 is complete at **8 minutes 58 seconds**, with approximately **4:32 for the customer demonstration** and **4:26 for the technical review**, using male Indian-English generated narration. Uploading it to YouTube as an unlisted video and adding its link are still pending. Docker runtime verification was completed after the video was recorded.
 
 ## What the product does
 
@@ -26,10 +32,19 @@ The initial example uses **1,000 MW demand, 300 MW wind, and 400 MW other supply
 Prerequisite: Docker Desktop or Docker Engine must be running.
 
 ```sh
+docker build -t wind-dashboard .
+docker run --rm -p 8001:8000 wind-dashboard
+```
+
+Open **http://localhost:8001**. This is the verified container startup path; `/api/health` returns HTTP 200. Host port 8001 avoids conflicting with the local Python server on port 8000. The multi-stage image builds React, installs the Python API, and bundles the genuine historical snapshot. No Elexon network calls or API key are needed to run the dashboard. The container runs as a non-root user and has an API health check.
+
+Alternatively, use the included Compose configuration:
+
+```sh
 docker compose up --build
 ```
 
-Open **http://localhost:8000**. The multi-stage image builds React, installs the Python API, and bundles the genuine historical snapshot. No Elexon network calls or API key are needed to run the dashboard. The container runs as a non-root user and has an API health check.
+Compose exposes the app on **http://localhost:8000**; make sure host port 8000 is free before starting it.
 
 ## Start locally
 
@@ -153,6 +168,16 @@ Dates outside January 2026 return HTTP 422. Missing snapshots return HTTP 503 wi
 
 ## Verification
 
+Completed checks:
+
+- **Python tests:** 27 passed, covering analysis, ingestion, and API behavior.
+- **Frontend:** TypeScript checking and the production Vite build passed.
+- **Browser:** desktop/mobile checks passed for date boundaries, filtering, pagination, error/retry behavior, and the illustrative scenario's calculations, validation, reset, and separation from historical metrics.
+- **Docker:** the `wind-dashboard` image runs successfully with `-p 8001:8000`; the running container's `/api/health` endpoint returns HTTP 200 and reports all 31 decision days ready.
+- **Demo MP4:** completed at 1920 × 1080, with both parts below five minutes and the full video below ten minutes. Duration, full-file decoding, representative frames, and audio levels were checked.
+
+To reproduce the code checks:
+
 ```sh
 python -m pytest backend/tests -q
 npm --prefix frontend run build
@@ -174,7 +199,7 @@ Set `PLAYWRIGHT_MODULE` to an absolute installed module path if needed. The chec
 2. The checked-in `vercel.json` builds the React frontend and exposes `app.py` as the Python entrypoint. The built assets and read-only snapshot are bundled. Do not set the project root to `frontend`, since that would omit the backend.
 3. Alternatively, from the repository root, use `npx vercel login`, `npx vercel`, then `npx vercel --prod` after reviewing the preview. Account login is interactive; do not put access tokens into source files.
 4. Open `/`, `/api/health`, and the 31 January decision on the published URL. Ensure any deployment protection allows the challenge reviewers to access the production app.
-5. Replace the deployment-status paragraph at the top of this README with the actual public URL and verify it in incognito mode.
+5. Update the deployment-status paragraph at the top of this README with the actual public URL and verify it in incognito mode.
 
 This configuration follows the [Vercel FastAPI deployment documentation](https://vercel.com/docs/frameworks/backend/fastapi). Docker is supplied for reproducible local execution; Vercel runs the Python application as a function rather than executing the Dockerfile. The SQLite database is bundled and opened read-only, which avoids relying on persistent writes in a serverless filesystem. No upstream-data import occurs during cold starts.
 
@@ -192,6 +217,13 @@ The checked-in `heroku.yml` builds `Dockerfile`; the server respects Heroku's `P
 
 ## AI assistance and submission
 
-**OpenAI Codex was used to assist with implementation, data integration, tests, styling, Docker/deployment configuration, and documentation.** The source data is genuine Elexon data, not AI-generated. Review and understand the code and validation results before presenting them.
+**OpenAI Codex was used to assist with implementation, data integration, tests, styling, Docker/deployment configuration, documentation, and preparation of the demonstration video.** The video uses generated male Indian-English narration. The source data is genuine Elexon data, not AI-generated. Review and understand the code and validation results before presenting them.
 
-Before submitting, publish this code to a **public GitHub repository with an anonymous/random repository name**, add the verified deployed URL above, record an **unlisted YouTube video of at most 10 minutes**, and verify all links in incognito mode. The evaluation starts with the video. Use `docs/DEMO.md` as a recording outline, then submit the required links through the original challenge form. No repository, video, or form submission has been published automatically.
+The code is pushed to the GitHub repository linked above, Docker startup and health checks have succeeded, and the demo MP4 is created. The remaining submission steps are:
+
+1. Deploy the sample application to **Vercel or Heroku**, verify it, and add the public URL above.
+2. Review the completed MP4, upload it to **YouTube as unlisted**, and add the video URL here.
+3. Open the repository, deployed app, and video URLs in **incognito mode** to verify sufficient access, including public repository visibility and any deployment protection settings.
+4. Submit the required links through the original challenge's Microsoft form.
+
+The evaluation starts with the video. `docs/DEMO.md` contains its customer/technical walkthrough outline. The unlisted YouTube upload, public app deployment, incognito checks, and form submission remain pending.
