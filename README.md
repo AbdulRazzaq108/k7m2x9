@@ -4,11 +4,11 @@ A React and Python dashboard for UK day-ahead electricity purchasing teams. It s
 
 **Source repository:** [AbdulRazzaq108/k7m2x9](https://github.com/AbdulRazzaq108/k7m2x9). The code has been pushed to GitHub using the required random repository name.
 
-**Application status:** implemented and tested locally. The Docker image has also been built and run successfully, with `/api/health` returning HTTP 200 on the container exposed at `http://localhost:8001`.
+**Application status:** implemented and tested locally, in Docker, and on the public Vercel deployment. The Docker image has been built and run successfully, with `/api/health` returning HTTP 200 on the container exposed at `http://localhost:8001`.
 
-**Deployment status:** public deployment to Vercel or Heroku is still pending. Add the verified public application URL here before submitting the assignment.
+**Live application:** [https://k7m2x9-henna.vercel.app/](https://k7m2x9-henna.vercel.app/) — deployed to Vercel production. The dashboard and API were verified without login, including the 31 January decision / 1 February delivery boundary.
 
-**Demo video:** the MP4 is complete at **8 minutes 58 seconds**, with approximately **4:32 for the customer demonstration** and **4:26 for the technical review**, using male Indian-English generated narration. Uploading it to YouTube as an unlisted video and adding its link are still pending. Docker runtime verification was completed after the video was recorded.
+**Demo video:** the MP4 is complete at **8 minutes 58 seconds**, with approximately **4:32 for the customer demonstration** and **4:26 for the technical review**, using male Indian-English generated narration. Uploading it to YouTube as an unlisted video and adding its link are still pending. The recording predates Docker runtime verification and public deployment; both have since been completed.
 
 ## What the product does
 
@@ -174,6 +174,8 @@ Completed checks:
 - **Frontend:** TypeScript checking and the production Vite build passed.
 - **Browser:** desktop/mobile checks passed for date boundaries, filtering, pagination, error/retry behavior, and the illustrative scenario's calculations, validation, reset, and separation from historical metrics.
 - **Docker:** the `wind-dashboard` image runs successfully with `-p 8001:8000`; the running container's `/api/health` endpoint returns HTTP 200 and reports all 31 decision days ready.
+- **Public Vercel deployment:** `/api/health`, `/api/overview`, and `/api/decisions/2026-01-31` return HTTP 200. The overview contains 744 matched observations; the 31 January decision returns delivery on 1 February with 24 matched observations. The deployed browser checks passed for rendering, dates, filters, pagination, methodology, mobile layout, the illustrative scenario, and error/retry behavior in a fresh browser context without saved login.
+- **Repository access:** the unauthenticated GitHub API confirms the repository is public.
 - **Demo MP4:** completed at 1920 × 1080, with both parts below five minutes and the full video below ten minutes. Duration, full-file decoding, representative frames, and audio levels were checked.
 
 To reproduce the code checks:
@@ -199,7 +201,7 @@ Set `PLAYWRIGHT_MODULE` to an absolute installed module path if needed. The chec
 2. The checked-in `vercel.json` builds the React frontend and exposes `app.py` as the Python entrypoint. The built assets and read-only snapshot are bundled. Do not set the project root to `frontend`, since that would omit the backend.
 3. Alternatively, from the repository root, use `npx vercel login`, `npx vercel`, then `npx vercel --prod` after reviewing the preview. Account login is interactive; do not put access tokens into source files.
 4. Open `/`, `/api/health`, and the 31 January decision on the published URL. Ensure any deployment protection allows the challenge reviewers to access the production app.
-5. Update the deployment-status paragraph at the top of this README with the actual public URL and verify it in incognito mode.
+5. Keep the live-application URL at the top of this README current and verify it without login after any deployment changes.
 
 This configuration follows the [Vercel FastAPI deployment documentation](https://vercel.com/docs/frameworks/backend/fastapi). Docker is supplied for reproducible local execution; Vercel runs the Python application as a function rather than executing the Dockerfile. The SQLite database is bundled and opened read-only, which avoids relying on persistent writes in a serverless filesystem. No upstream-data import occurs during cold starts.
 
@@ -219,11 +221,10 @@ The checked-in `heroku.yml` builds `Dockerfile`; the server respects Heroku's `P
 
 **OpenAI Codex was used to assist with implementation, data integration, tests, styling, Docker/deployment configuration, documentation, and preparation of the demonstration video.** The video uses generated male Indian-English narration. The source data is genuine Elexon data, not AI-generated. Review and understand the code and validation results before presenting them.
 
-The code is pushed to the GitHub repository linked above, Docker startup and health checks have succeeded, and the demo MP4 is created. The remaining submission steps are:
+The code is pushed to the public GitHub repository linked above, Docker startup and health checks have succeeded, the app is deployed to Vercel, and the demo MP4 is created. The remaining submission steps are:
 
-1. Deploy the sample application to **Vercel or Heroku**, verify it, and add the public URL above.
-2. Review the completed MP4, upload it to **YouTube as unlisted**, and add the video URL here.
-3. Open the repository, deployed app, and video URLs in **incognito mode** to verify sufficient access, including public repository visibility and any deployment protection settings.
-4. Submit the required links through the original challenge's Microsoft form.
+1. Review the completed MP4, upload it to **YouTube as unlisted**, and add the video URL here.
+2. Open the repository, deployed app, and video URLs together in **incognito mode** for a final access check before submission. The app has already passed a fresh-browser check and the repository's public visibility has been confirmed.
+3. Submit the required links through the original challenge's Microsoft form.
 
-The evaluation starts with the video. `docs/DEMO.md` contains its customer/technical walkthrough outline. The unlisted YouTube upload, public app deployment, incognito checks, and form submission remain pending.
+The evaluation starts with the video. `docs/DEMO.md` contains its customer/technical walkthrough outline. The unlisted YouTube upload, final combined submission-link checks, and form submission remain pending.
