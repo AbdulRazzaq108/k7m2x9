@@ -1,0 +1,11 @@
+.venv/
+node_modules/
+frontend/dist/
+__pycache__/
+.pytest_cache/
+.vercel/
+.env
+*.log
+*.tsbuildinfo
+artifacts/
+Wind_Generation_Challenge_Demo.mp4

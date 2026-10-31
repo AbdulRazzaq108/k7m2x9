@@ -1,0 +1,1 @@
+"""Historical wind-generation analysis."""

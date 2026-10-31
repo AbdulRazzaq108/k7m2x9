@@ -1,0 +1,12 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": "fastapi",
+  "buildCommand": "npm --prefix frontend ci --no-audit --no-fund && npm --prefix frontend run build",
+  "functions": {
+    "app.py": {
+      "maxDuration": 30,
+      "includeFiles": "{backend/**,data/wind.sqlite3,data/manifest.json,frontend/dist/**}",
+      "excludeFiles": "{.venv/**,frontend/node_modules/**,data/raw/**,backend/tests/**,scripts/**,docs/**,artifacts/**}"
+    }
+  }
+}
